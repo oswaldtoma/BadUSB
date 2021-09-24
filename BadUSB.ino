@@ -1,5 +1,7 @@
 #include "Defines.h"
 #include "DevicesManager.h"
+#include "ScriptManager.h"
+#include "SD.h"
 
 void log(const char* str)
 {
@@ -19,24 +21,16 @@ void setup()
 
     DevicesManager::beginKeyboard();
     DevicesManager::beginSD();
+
+    ScriptManager::init(&SD, DevicesManager::getKeyboard());
 }
 
 void loop()
 {
-    // put your main code here, to run repeatedly:
     delay(200);
-
-    static bool started = false;
 
     if(isBootButtonClicked())
     {
-        if(!started)
-        {
-            DevicesManager::beginSD();
-            started = true;
-        }
-
-        DevicesManager::getKeyboard()->sendChar('a');
         log("klik!");
     }
 }
