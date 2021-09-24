@@ -4,8 +4,8 @@
 class DevicesManager
 {
 public:
-    static void beginKeyboard();
-    static void beginSD();
+    static bool beginKeyboard();
+    static bool beginSD();
 
     static HIDkeyboard* getKeyboard() { return &m_keyboard; }
 

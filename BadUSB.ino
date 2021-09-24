@@ -21,8 +21,10 @@ void setup()
 
     DevicesManager::beginKeyboard();
     DevicesManager::beginSD();
-
+ 
     ScriptManager::init(&SD, DevicesManager::getKeyboard());
+
+    ScriptManager::executeScript();
 }
 
 void loop()
