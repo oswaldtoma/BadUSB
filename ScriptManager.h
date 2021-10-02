@@ -1,13 +1,13 @@
 #include "FS.h"
-#include "hidkeyboard.h"
+#include "USBHIDKeyboard.h"
 
 class ScriptManager
 {
 public:
-    static void init(fs::FS* filesystem, HIDkeyboard* keyboard);
+    static void init(fs::FS* filesystem, USBHIDKeyboard* keyboard);
     static void executeScript();
 
 private:
     static fs::FS* m_filesystem;
-    static HIDkeyboard* m_keyboard;
+    static USBHIDKeyboard* m_keyboard;
 };

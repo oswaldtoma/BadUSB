@@ -19,12 +19,13 @@ void setup()
 
     Serial.begin(115200);
 
-    DevicesManager::beginKeyboard();
     DevicesManager::beginSD();
+    DevicesManager::beginKeyboard();
+    DevicesManager::allDevicesReady();
  
-    ScriptManager::init(&SD, DevicesManager::getKeyboard());
+    // ScriptManager::init(&SD, DevicesManager::getKeyboard());
 
-    ScriptManager::executeScript();
+    // ScriptManager::executeScript();
 }
 
 void loop()
@@ -33,6 +34,7 @@ void loop()
 
     if(isBootButtonClicked())
     {
+        DevicesManager::getKeyboard()->write('a');
         log("klik!");
     }
 }

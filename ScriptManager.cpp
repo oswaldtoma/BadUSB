@@ -1,9 +1,9 @@
 #include "ScriptManager.h"
 
 fs::FS* ScriptManager::m_filesystem = nullptr;
-HIDkeyboard* ScriptManager::m_keyboard = nullptr;
+USBHIDKeyboard* ScriptManager::m_keyboard = nullptr;
 
-void ScriptManager::init(fs::FS* filesystem, HIDkeyboard* keyboard)
+void ScriptManager::init(fs::FS* filesystem, USBHIDKeyboard* keyboard)
 {
     m_filesystem = filesystem;
     m_keyboard = keyboard;
