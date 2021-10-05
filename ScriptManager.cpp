@@ -1,4 +1,5 @@
 #include "ScriptManager.h"
+#include "ScriptLang.h"
 
 fs::FS* ScriptManager::m_filesystem = nullptr;
 USBHIDKeyboard* ScriptManager::m_keyboard = nullptr;
