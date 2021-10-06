@@ -28,16 +28,20 @@ void ScriptLang::getFinalBytesArray(const char* scriptLine, uint16_t lineLength,
 {
     char buff[lineLength] = { '\0' };
     uint16_t buffIndex = 0;
+    uint16_t outArrayIndex = 0;
 
     for(uint16_t i = 0; i < lineLength; i++)
     {
-        Serial.println(buff);
-
-        if(scriptLine[i] == ' ')
+        if(scriptLine[i] == ' ' || scriptLine[i] == '\0')
         {
-           Serial.println(getKeyNumValue(buff));
-           memset(buff, 0, sizeof(buff));
-           buffIndex = 0;
+            Serial.println(buff);
+            Serial.println(i);
+
+            outArray[outArrayIndex] = getKeyNumValue(buff);
+            outArrayIndex++; 
+
+            memset(buff, 0, sizeof(buff));
+            buffIndex = 0;
         }
         else
         {

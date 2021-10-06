@@ -34,6 +34,11 @@ void setup()
 
     uint16_t buff2[30] = { '\0' };
     ScriptLang::getFinalBytesArray("BAC UP DOW", strlen("BAC UP DOW"), buff2);
+
+    for(uint8_t i = 0; i < 3; i++)
+    {
+        Serial.println(buff2[i], HEX);
+    }
 }                          
 
 void loop()
