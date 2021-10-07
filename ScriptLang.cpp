@@ -26,17 +26,19 @@ ScriptLang::KeyValueDict ScriptLang::m_dictionary[DICTIONARY_ELEMENTS_NUMBER] =
 
 void ScriptLang::getFinalBytesArray(const char* scriptLine, uint16_t lineLength, uint16_t* outArray)
 {
-    char buff[lineLength] = { '\0' };
+    char* buff = new char[lineLength + 1];
+    memset(buff, 0, sizeof(buff));
+
     uint16_t buffIndex = 0;
     uint16_t outArrayIndex = 0;
 
-    for(uint16_t i = 0; i < lineLength; i++)
+    Serial.println(lineLength);
+
+    for(uint16_t i = 0; i <= lineLength; i++)
     {
+        Serial.println(buff);
         if(scriptLine[i] == ' ' || scriptLine[i] == '\0')
         {
-            Serial.println(buff);
-            Serial.println(i);
-
             outArray[outArrayIndex] = getKeyNumValue(buff);
             outArrayIndex++; 
 
