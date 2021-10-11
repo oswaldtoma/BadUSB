@@ -24,8 +24,10 @@ ScriptLang::KeyValueDict ScriptLang::m_dictionary[DICTIONARY_ELEMENTS_NUMBER] =
     { "DEL", KEY_DELETE },
 };
 
-void ScriptLang::getFinalBytesArray(const char* scriptLine, uint16_t lineLength, uint16_t* outArray)
+void ScriptLang::getFinalBytesArray(const char* scriptLine, char* outArray)
 {
+    uint8_t lineLength = strlen(scriptLine);
+
     char* buff = new char[lineLength + 1];
     memset(buff, 0, sizeof(buff));
 
@@ -33,6 +35,12 @@ void ScriptLang::getFinalBytesArray(const char* scriptLine, uint16_t lineLength,
     uint16_t outArrayIndex = 0;
 
     Serial.println(lineLength);
+
+    if (isString(scriptLine))
+    {
+        strcpy(outArray, scriptLine);
+        return;
+    }
 
     for(uint16_t i = 0; i <= lineLength; i++)
     {
@@ -79,4 +87,22 @@ uint16_t ScriptLang::getSpecialKeyNumValue(const char* keyString)
     }
 
     return 0;
+}
+
+bool ScriptLang::hasSpaces(const char* string)
+{
+    for (uint8_t i = 0; i < strlen(string); i++)
+    {
+        if (string[i] == ' ')
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool ScriptLang::isString(const char* string)
+{
+    return string[0] == '"' && string[strlen(string) - 1] == '"';
 }

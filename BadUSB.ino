@@ -32,10 +32,10 @@ void setup()
     sprintf(buff, "%d", ScriptLang::getKeyNumValue("OS"));
     log(buff);
 
-    uint16_t buff2[30] = { '\0' };
-    ScriptLang::getFinalBytesArray("OS R", strlen("OS R"), buff2);
+    char buff2[30] = { '\0' };
+    ScriptLang::getFinalBytesArray("OS R", buff2);
 
-    for(uint8_t i = 0; i < 3; i++)
+    for(uint8_t i = 0; i < 13; i++)
     {
         Serial.println(buff2[i], HEX);
     }
