@@ -26,19 +26,7 @@ void setup()
  
     ScriptManager::init(&SD, DevicesManager::getKeyboard());
 
-    // ScriptManager::executeScript();
-
-    char buff[10];
-    sprintf(buff, "%d", ScriptLang::getKeyNumValue("OS"));
-    log(buff);
-
-    char buff2[30] = { '\0' };
-    ScriptLang::getFinalBytesArray("OS R", buff2);
-
-    for(uint8_t i = 0; i < 13; i++)
-    {
-        Serial.println(buff2[i], HEX);
-    }
+    ScriptManager::executeScript();
 }                          
 
 void loop()
