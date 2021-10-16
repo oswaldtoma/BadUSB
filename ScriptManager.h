@@ -18,6 +18,6 @@ private:
     static USBHIDKeyboard* m_keyboard;
 
     static uint16_t getRowCount(uint8_t* buffer, uint16_t buffSize);
-    static void ScriptManager::getRows(Row* rowArray, uint16_t arrSize);
-    static Row ScriptManager::getRow(uint8_t* buffer, uint16_t buffSize);
+    static void getRows(Row* rowArray, uint16_t arrSize);
+    static Row getRow(uint8_t* buffer, uint16_t buffSize);
 };
