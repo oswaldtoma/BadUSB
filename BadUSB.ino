@@ -24,7 +24,7 @@ void setup()
     DevicesManager::beginKeyboard();
     DevicesManager::allDevicesReady();
  
-    ScriptManager::init(&SD, DevicesManager::getKeyboard());
+    ScriptManager::init(DevicesManager::getSD(), DevicesManager::getKeyboard());
 
     ScriptManager::executeScript();
 }                          
