@@ -1,5 +1,5 @@
 #include "FS.h"
-#include "USBHIDKeyboard.h"
+#include "IKeyboard.h"
 
 class ScriptManager
 {
@@ -10,12 +10,12 @@ public:
         uint16_t rowLength;
     } Row;
 
-    static void init(fs::FS* filesystem, USBHIDKeyboard* keyboard);
+    static void init(fs::FS* filesystem, IKeyboard* keyboard);
     static void executeScript();
 
 private:
     static fs::FS* m_filesystem;
-    static USBHIDKeyboard* m_keyboard;
+    static IKeyboard* m_keyboard;
 
     static uint16_t getRowCount(uint8_t* buffer, uint16_t buffSize);
     static void getRows(Row* rowArray, uint16_t arrSize);

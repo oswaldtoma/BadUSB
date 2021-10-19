@@ -2,9 +2,9 @@
 #include "ScriptLang.h"
 
 fs::FS* ScriptManager::m_filesystem = nullptr;
-USBHIDKeyboard* ScriptManager::m_keyboard = nullptr;
+IKeyboard* ScriptManager::m_keyboard = nullptr;
 
-void ScriptManager::init(fs::FS* filesystem, USBHIDKeyboard* keyboard)
+void ScriptManager::init(fs::FS* filesystem, IKeyboard* keyboard)
 {
     m_filesystem = filesystem;
     m_keyboard = keyboard;
@@ -72,4 +72,6 @@ ScriptManager::Row ScriptManager::getRow(uint8_t* buffer, uint16_t buffSize)
     {
         row.rowArray[i]; //todo
     }
+
+    return row;
 }

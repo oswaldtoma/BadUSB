@@ -36,7 +36,7 @@ void loop()
     //testing
     if(isBootButtonClicked())
     {
-        // DevicesManager::getKeyboard()->press(KEY_LEFT_CTRL);                
+        // DevicesManager::getKeyboard()->press('a');                
         // DevicesManager::getKeyboard()->press(KEY_TAB);                
         log("klik!");
     }

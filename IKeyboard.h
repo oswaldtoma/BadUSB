@@ -1,3 +1,9 @@
+#ifndef IKEYBOARD
+#define IKEYBOARD
+
+#include <cstddef>
+#include <cstdint>
+
 class IKeyboard
 {
 public:
@@ -15,4 +21,4 @@ public:
     virtual size_t releaseRaw(uint8_t k) = 0;
 };
 
-
+#endif

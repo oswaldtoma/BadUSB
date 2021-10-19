@@ -1,7 +1,7 @@
 #include "DevicesManager.h"
 #include "Defines.h"
 
-USBHIDKeyboard DevicesManager::m_keyboard;
+USBHIDKeyboardWrapper DevicesManager::m_keyboard;
 USBMSC DevicesManager::m_msc;
 SPIClass DevicesManager::m_spi(FSPI);
 
