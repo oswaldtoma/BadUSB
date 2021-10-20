@@ -113,14 +113,12 @@
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="IKeyboard.h" />
-    <ClInclude Include="ISDFS.h" />
     <ClInclude Include="ScriptLang.h">
       <FileType>CppCode</FileType>
     </ClInclude>
     <ClInclude Include="ScriptManager.h">
       <FileType>CppCode</FileType>
     </ClInclude>
-    <ClInclude Include="SDFSWrapper.h" />
     <ClInclude Include="USBHIDKeyboardWrapper.h">
       <SubType>
       </SubType>
@@ -131,7 +129,6 @@
     <ClCompile Include="DevicesManager.cpp" />
     <ClCompile Include="ScriptLang.cpp" />
     <ClCompile Include="ScriptManager.cpp" />
-    <ClCompile Include="SDFSWrapper.cpp" />
     <ClCompile Include="USBHIDKeyboardWrapper.cpp">
       <SubType>
       </SubType>

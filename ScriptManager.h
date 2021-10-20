@@ -1,5 +1,5 @@
-#include "ISDFS.h"
 #include "IKeyboard.h"
+#include "FS.h"
 
 class ScriptManager
 {
@@ -10,11 +10,11 @@ public:
         uint16_t rowLength;
     } Row;
 
-    static void init(ISDFS* filesystem, IKeyboard* keyboard);
+    static void init(fs::FS* filesystem, IKeyboard* keyboard);
     static void executeScript();
 
 private:
-    static ISDFS* m_filesystem;
+    static fs::FS* m_filesystem;
     static IKeyboard* m_keyboard;
 
     static uint16_t getRowCount(uint8_t* buffer, uint16_t buffSize);

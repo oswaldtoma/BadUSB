@@ -1,6 +1,5 @@
 #include "Defines.h"
 #include "USB.h"
-#include "SDFSWrapper.h"
 #include "SPI.h"
 #include "USBMSC.h"
 #include "USBHIDKeyboardWrapper.h"
@@ -13,7 +12,6 @@ public:
     static void allDevicesReady();
 
     static USBHIDKeyboardWrapper* getKeyboard() { return &m_keyboard; }
-    static SDFSWrapper* getSD() { return &m_sd; }
 
 private:
     static int32_t onWrite(uint32_t lba, uint32_t offset, uint8_t* buffer, uint32_t bufsize);
@@ -23,5 +21,4 @@ private:
     static USBHIDKeyboardWrapper m_keyboard;
     static USBMSC m_msc;
     static SPIClass m_spi;
-    static SDFSWrapper m_sd;
 };

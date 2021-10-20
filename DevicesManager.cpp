@@ -1,5 +1,6 @@
 #include "DevicesManager.h"
 #include "Defines.h"
+#include "SD.h"
 
 USBHIDKeyboardWrapper DevicesManager::m_keyboard;
 USBMSC DevicesManager::m_msc;
@@ -31,7 +32,7 @@ bool DevicesManager::beginKeyboard()
 bool DevicesManager::beginSD()
 {
     m_spi.begin(SD_SCK, SD_MISO, SD_MOSI, SD_CS);
-    m_sd.begin(SD_CS, m_spi, 40000000);
+    SD.begin(SD_CS, m_spi, 40000000);
     m_msc.vendorID("ESP32");
     m_msc.productID("USB_MSC");
     m_msc.productRevision("1.0");

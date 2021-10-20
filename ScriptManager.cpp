@@ -1,10 +1,10 @@
 #include "ScriptManager.h"
 #include "ScriptLang.h"
 
-ISDFS* ScriptManager::m_filesystem = nullptr;
+fs::FS* ScriptManager::m_filesystem = nullptr;
 IKeyboard* ScriptManager::m_keyboard = nullptr;
 
-void ScriptManager::init(ISDFS* filesystem, IKeyboard* keyboard)
+void ScriptManager::init(fs::FS* filesystem, IKeyboard* keyboard)
 {
     m_filesystem = filesystem;
     m_keyboard = keyboard;
