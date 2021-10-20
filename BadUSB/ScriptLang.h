@@ -10,7 +10,7 @@ class ScriptLang
     };
 
 public:
-    static void getFinalBytesArray(const char* scriptLine, char* outArray);
+    static void getLineBytesArray(const char* scriptLine, char* outArray);
     static uint16_t getKeyNumValue(const char* keyString);
 
 private:
