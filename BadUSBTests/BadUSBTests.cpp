@@ -41,7 +41,31 @@ namespace BadUSBTests
 		TEST_METHOD(TestWordWithQuotationMarksAndSomethingAfter)
 		{
 			char buffer[20] = { '\0' };
-			ScriptLang::getLineBytesArray("\"Samochod123\" r", buffer);
+			ScriptLang::getLineBytesArray("\"Samochod123\" r", buffer); //should abandon and return empty array
+
+			Assert::AreEqual("", buffer);
+		}
+
+		TEST_METHOD(TestWordWithQuotationMarksAndSpaces)
+		{
+			char buffer[30] = { '\0' };
+			ScriptLang::getLineBytesArray("\"Samochod123 Ala ma kota\"", buffer); //should return bytes including spaces 
+
+			Assert::AreEqual("\"Samochod123 Ala ma kota\"", buffer);
+		}
+
+		TEST_METHOD(TestWordWithSpecialKeyPhraseInside)
+		{
+			char buffer[30] = { '\0' };
+			ScriptLang::getLineBytesArray("\"Samochod123 OS\"", buffer); //should return bytes including spaces, NO SPECIAL KEY
+
+			Assert::AreEqual("\"Samochod123 OS\"", buffer);
+		}
+
+		TEST_METHOD(TestComment)
+		{
+			char buffer[30] = { '\0' };
+			ScriptLang::getLineBytesArray("COM komentarz 123", buffer);
 
 			Assert::AreEqual("", buffer);
 		}
