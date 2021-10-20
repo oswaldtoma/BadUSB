@@ -27,9 +27,6 @@
     <ClInclude Include="DevicesManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScriptLang.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ScriptManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,9 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DevicesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScriptLang.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScriptManager.cpp">

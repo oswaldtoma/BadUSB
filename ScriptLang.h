@@ -1,4 +1,5 @@
-#include "USBHIDKeyboard.h"
+#include <cstddef>
+#include <cstdint>
 
 class ScriptLang
 {

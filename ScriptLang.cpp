@@ -1,5 +1,6 @@
 #include "ScriptLang.h"
-#include "Arduino.h"
+#include "Defines.h"
+#include <string.h>
 
 ScriptLang::KeyValueDict ScriptLang::m_dictionary[DICTIONARY_ELEMENTS_NUMBER] =
 {
@@ -34,7 +35,7 @@ void ScriptLang::getFinalBytesArray(const char* scriptLine, char* outArray)
     uint16_t buffIndex = 0;
     uint16_t outArrayIndex = 0;
 
-    Serial.println(lineLength);
+    //Serial.println(lineLength);
 
     if (isString(scriptLine))
     {
@@ -44,7 +45,7 @@ void ScriptLang::getFinalBytesArray(const char* scriptLine, char* outArray)
 
     for(uint16_t i = 0; i <= lineLength; i++)
     {
-        Serial.println(buff);
+        //Serial.println(buff);
         if(scriptLine[i] == ' ' || scriptLine[i] == '\0')
         {
             outArray[outArrayIndex] = getKeyNumValue(buff);

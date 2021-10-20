@@ -7,7 +7,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BadUSB", "BadUSB.vcxproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BadUSBTests", "..\BadUSBTests\BadUSBTests.vcxproj", "{740F80AB-74B0-4691-950F-0E34B4282C02}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduinoSharedCode", "..\ArduinoSharedCode\ArduinoSharedCode.vcxitems", "{85BF85A9-387E-4757-9007-D5882E05BCF8}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\ArduinoSharedCode\ArduinoSharedCode.vcxitems*{740f80ab-74b0-4691-950f-0e34b4282c02}*SharedItemsImports = 4
+		..\ArduinoSharedCode\ArduinoSharedCode.vcxitems*{85bf85a9-387e-4757-9007-d5882e05bcf8}*SharedItemsImports = 9
+		..\ArduinoSharedCode\ArduinoSharedCode.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
