@@ -1,3 +1,4 @@
-.vs/
-__vm/
-Release
+BadUSB/.vs/
+BadUSB/__vm/
+BadUSB/Release
+BadUSBTests/Release
