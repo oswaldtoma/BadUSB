@@ -1,3 +1,4 @@
+#include "Helper.h"
 #include "Defines.h"
 #include "DevicesManager.h"
 #include "ScriptManager.h"
@@ -24,9 +25,14 @@ void setup()
     DevicesManager::beginKeyboard();
     DevicesManager::allDevicesReady();
  
-    ScriptManager::init(&SD, DevicesManager::getKeyboard());
+    ScriptManager::init(DevicesManager::getKeyboard());
 
-    ScriptManager::executeScript();
+    if (SD.exists("/script.txt"))
+    {
+        File file = SD.open("/script.txt");
+        uint8_t fileData[50] = { '\0' };
+        ScriptManager::executeScript(fileData, 50);
+    }
 }                          
 
 void loop()

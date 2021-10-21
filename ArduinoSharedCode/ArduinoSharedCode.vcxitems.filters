@@ -5,8 +5,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptLang.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\IKeyboard.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\Helper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptLang.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\BadUSB\Helper.cpp" />
   </ItemGroup>
 </Project>

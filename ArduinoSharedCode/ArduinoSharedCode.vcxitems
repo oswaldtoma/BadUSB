@@ -17,11 +17,18 @@
     <Text Include="$(MSBuildThisFileDirectory)readme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\Helper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\IKeyboard.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptLang.h">
+      <FileType>CppCode</FileType>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptManager.h">
       <FileType>CppCode</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\BadUSB\Helper.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptLang.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptManager.cpp" />
   </ItemGroup>
 </Project>

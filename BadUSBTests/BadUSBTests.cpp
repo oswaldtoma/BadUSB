@@ -1,11 +1,12 @@
 #include "CppUnitTest.h"
 #include "../BadUSB/ScriptLang.h"
+#include "../BadUSB/ScriptManager.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace BadUSBTests
 {
-	TEST_CLASS(BadUSBTests)
+	TEST_CLASS(ScriptLangTests)
 	{
 	public:
 
@@ -68,6 +69,18 @@ namespace BadUSBTests
 			ScriptLang::getLineBytesArray("COM komentarz 123", buffer);
 
 			Assert::AreEqual("", buffer);
+		}
+	};
+
+	TEST_CLASS(ScriptManagerTests)
+	{
+	public:
+
+		TEST_METHOD(ScriptManagerTestKeysCombo)
+		{
+			const char* string = "OS R";
+
+			ScriptManager::executeScript((uint8_t*)string, 4);
 		}
 	};
 }
