@@ -75,12 +75,24 @@ namespace BadUSBTests
 	TEST_CLASS(ScriptManagerTests)
 	{
 	public:
-
-		TEST_METHOD(ScriptManagerTestKeysCombo)
+		TEST_METHOD(ScriptManagerTest1)
 		{
-			const char* string = "OS R";
+			ScriptManager::Row rows[20] = { {0}, 0 };
 
-			ScriptManager::executeScript((uint8_t*)string, 4);
+			const char* string = "OS R";
+			ScriptManager::getRows((uint8_t*)string, 4, rows, 20);
+
+			Assert::AreEqual((const char*)rows[0].rowArray, "OS R");
+
+			string = "OS R\n\"Samochod123\"";
+			ScriptManager::getRows((uint8_t*)string, 18, rows, 20);
+			Assert::AreEqual((const char*)rows[0].rowArray, "OS R");
+			Assert::AreEqual((const char*)rows[1].rowArray, "\"Samochod123\"");
+
+			string = "OS R\r\n\"Samochod123\"";
+			ScriptManager::getRows((uint8_t*)string, 19, rows, 20);
+			Assert::AreEqual((const char*)rows[0].rowArray, "OS R");
+			Assert::AreEqual((const char*)rows[1].rowArray, "\"Samochod123\"");
 		}
 	};
 }
