@@ -26,13 +26,6 @@ void setup()
     DevicesManager::allDevicesReady();
  
     ScriptManager::init(DevicesManager::getKeyboard());
-
-    if (SD.exists("/script.txt"))
-    {
-        File file = SD.open("/script.txt");
-        uint8_t fileData[50] = { '\0' };
-        ScriptManager::executeScript(fileData, 50);
-    }
 }                          
 
 void loop()
@@ -40,10 +33,33 @@ void loop()
     delay(200);
 
     //testing
-    if(isBootButtonClicked())
+    static bool test = false;
+
+    if(isBootButtonClicked() && !test)
     {
         // DevicesManager::getKeyboard()->press('a');                
         // DevicesManager::getKeyboard()->press(KEY_TAB);                
         log("klik!");
+        //if (SD.exists("/script.txt"))
+        //{
+        //    File file = SD.open("/script.txt");
+        //    uint8_t fileData[50] = { '\0' };
+        //    file.readBytes((char*)fileData, 50);
+        //    ScriptManager::executeScript(fileData, 50);
+        //    log("executed!");
+        //}
+
+        DevicesManager::getKeyboard()->press(0x83);
+        delay(100);
+        DevicesManager::getKeyboard()->press('r');
+        delay(100);
+        DevicesManager::getKeyboard()->releaseAll();
+        //DevicesManager::getKeyboard()->releaseRaw(0xe3);
+        test = true;
+    }
+
+    if (!isBootButtonClicked())
+    {
+        test = false;
     }
 }

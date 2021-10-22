@@ -106,6 +106,11 @@ namespace BadUSBTests
 			ScriptManager::executeScript((uint8_t*)string, 19);
 
 			Assert::AreEqual((uint8_t)0x83, keyboard.getPressedKey(0));
+
+			string = "OS R";
+			ScriptManager::executeScript((uint8_t*)string, 19);
+
+			Assert::AreEqual((uint8_t)0x83, keyboard.getPressedKey(0));
 		}
 	};
 }
