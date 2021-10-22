@@ -15,3 +15,14 @@ void Helper::fillArrayWithValue(uint8_t* destination, uint16_t size, uint16_t va
 		destination[i] = value;
 	}
 }
+
+uint16_t Helper::getStringLength(uint8_t* array, uint16_t arrSize)
+{
+	for (uint16_t i = 0; i < arrSize; i++)
+	{
+		if (array[i] == '\0')
+		{
+			return i; //length without null char
+		}
+	}
+}

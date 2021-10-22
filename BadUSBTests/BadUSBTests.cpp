@@ -4,6 +4,8 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
+#include "KeyboardFake.h"
+
 namespace BadUSBTests
 {
 	TEST_CLASS(ScriptLangTests)
@@ -93,6 +95,17 @@ namespace BadUSBTests
 			ScriptManager::getRows((uint8_t*)string, 19, rows, 20);
 			Assert::AreEqual((const char*)rows[0].rowArray, "OS R");
 			Assert::AreEqual((const char*)rows[1].rowArray, "\"Samochod123\"");
+		}
+
+		TEST_METHOD(ScriptManagerWithKeyboard)
+		{
+			KeyboardFake keyboard;
+			ScriptManager::init(&keyboard);
+
+			const char* string = "OS R\r\n\"Samochod123\"";
+			ScriptManager::executeScript((uint8_t*)string, 19);
+
+			Assert::AreEqual((uint8_t)0x83, keyboard.getPressedKey(0));
 		}
 	};
 }

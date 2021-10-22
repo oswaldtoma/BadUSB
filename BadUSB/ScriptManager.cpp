@@ -13,6 +13,18 @@ void ScriptManager::executeScript(uint8_t* rawBytes, uint16_t size)
 {
     Row rows[50] = { { 0 }, 0 };
     getRows(rawBytes, size, rows, 50);
+
+    for (uint16_t row = 0; row < 50; row++)
+    {
+        char buffer[250] = { '\0' };
+        ScriptLang::getLineBytesArray((const char*)rows[row].rowArray, buffer);
+        uint16_t bytesCount = Helper::getStringLength((uint8_t*)buffer, 250);
+
+        for (uint16_t c = 0; c < bytesCount; c++)
+        {
+            m_keyboard->write(buffer[c]);
+        }
+    }
 }
 
 uint16_t ScriptManager::getRowCount(uint8_t* buffer, uint16_t buffSize)
