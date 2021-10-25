@@ -11,18 +11,26 @@ void ScriptManager::init(IKeyboard* keyboard)
 
 void ScriptManager::executeScript(uint8_t* rawBytes, uint16_t size)
 {
+    uint8_t rowCount = getRowCount(rawBytes, size);
+
     Row rows[50] = { { 0 }, 0 };
     getRows(rawBytes, size, rows, 50);
 
-    for (uint16_t row = 0; row < 50; row++)
+    for (uint16_t row = 0; row < rowCount; row++)
     {
         char buffer[250] = { '\0' };
         ScriptLang::getLineBytesArray((const char*)rows[row].rowArray, buffer);
         uint16_t bytesCount = Helper::getStringLength((uint8_t*)buffer, 250);
 
+        if (buffer[0] == '"' && buffer[bytesCount - 1] == '"') //string
+        {
+            m_keyboard->write((const uint8_t*)buffer, rows[row].rowLength);
+            break;
+        }
+
         for (uint16_t c = 0; c < bytesCount; c++)
         {
-            m_keyboard->write(buffer[c]);
+            m_keyboard->press(buffer[c]);
         }
     }
 }
@@ -46,7 +54,10 @@ uint16_t ScriptManager::getRowCount(uint8_t* buffer, uint16_t buffSize)
                 i++;
             }
 
-            rowCount++;
+            if (!endOfFile)
+            {
+                rowCount++;
+            }
         }          
     }
 

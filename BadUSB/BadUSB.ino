@@ -1,3 +1,6 @@
+#include "Timer.h"
+#include "ITimer.h"
+#include "Timer.h"
 #include "Helper.h"
 #include "Defines.h"
 #include "DevicesManager.h"
@@ -36,23 +39,19 @@ void loop()
     static bool test = false;
 
     if(isBootButtonClicked() && !test)
-    {
-        // DevicesManager::getKeyboard()->press('a');                
-        // DevicesManager::getKeyboard()->press(KEY_TAB);                
+    {       
         log("klik!");
-        //if (SD.exists("/script.txt"))
-        //{
-        //    File file = SD.open("/script.txt");
-        //    uint8_t fileData[50] = { '\0' };
-        //    file.readBytes((char*)fileData, 50);
-        //    ScriptManager::executeScript(fileData, 50);
-        //    log("executed!");
-        //}
+        if (SD.exists("/script.txt"))
+        {
+            File file = SD.open("/script.txt");
+            uint8_t fileData[50] = { '\0' };
+            file.readBytes((char*)fileData, 50);
+            ScriptManager::executeScript(fileData, 50);
+            log("executed!");
+        }
 
-        DevicesManager::getKeyboard()->press(0x83);
-        delay(100);
-        DevicesManager::getKeyboard()->press('r');
-        delay(100);
+        //DevicesManager::getKeyboard()->press(0x83);
+        //DevicesManager::getKeyboard()->press('r');
         DevicesManager::getKeyboard()->releaseAll();
         //DevicesManager::getKeyboard()->releaseRaw(0xe3);
         test = true;

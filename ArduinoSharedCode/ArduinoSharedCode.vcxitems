@@ -19,6 +19,7 @@
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\Helper.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\IKeyboard.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ITimer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptLang.h">
       <FileType>CppCode</FileType>
     </ClInclude>

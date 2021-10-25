@@ -1,4 +1,5 @@
 #include "USBHIDKeyboardWrapper.h"
+#include "Arduino.h"
 
 void USBHIDKeyboardWrapper::begin()
 {
@@ -22,7 +23,9 @@ size_t USBHIDKeyboardWrapper::write(const uint8_t* buffer, size_t size)
 
 size_t USBHIDKeyboardWrapper::press(uint8_t k)
 {
-	return m_keyboard.press(k);
+	size_t retVal = m_keyboard.press(k);
+	delay(100);
+	return retVal;
 }
 
 size_t USBHIDKeyboardWrapper::release(uint8_t k)

@@ -27,7 +27,9 @@ size_t KeyboardFake::write(const uint8_t* buffer, size_t size)
 
 size_t KeyboardFake::press(uint8_t k)
 {
-    return size_t();
+    pressedButtons[pressIndex] = k;
+    pressIndex++;
+    return k;
 }
 
 size_t KeyboardFake::release(uint8_t k)

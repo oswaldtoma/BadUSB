@@ -102,12 +102,12 @@ namespace BadUSBTests
 			KeyboardFake keyboard;
 			ScriptManager::init(&keyboard);
 
-			const char* string = "OS R\r\n\"Samochod123\"";
-			ScriptManager::executeScript((uint8_t*)string, 19);
+			//const char* string = "OS R\r\n\"Samochod123\"";
+			//ScriptManager::executeScript((uint8_t*)string, 19);
 
-			Assert::AreEqual((uint8_t)0x83, keyboard.getPressedKey(0));
+			//Assert::AreEqual((uint8_t)0x83, keyboard.getPressedKey(0)); presses are replaced by write func
 
-			string = "OS R";
+			const char* string = "OS R";
 			ScriptManager::executeScript((uint8_t*)string, 19);
 
 			Assert::AreEqual((uint8_t)0x83, keyboard.getPressedKey(0));

@@ -8,6 +8,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\IKeyboard.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\Helper.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\BadUSB\ITimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)..\BadUSB\ScriptLang.cpp" />
