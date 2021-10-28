@@ -27,10 +27,10 @@ ScriptLang::KeyValueDict ScriptLang::m_dictionary[DICTIONARY_ELEMENTS_NUMBER] =
 
 void ScriptLang::getLineBytesArray(const char* scriptLine, char* outArray)
 {
-    uint8_t lineLength = strlen(scriptLine);
+    uint16_t lineLength = strlen(scriptLine);
 
-    char* buff = new char[lineLength + 1];
-    memset(buff, 0, lineLength + 1);
+    static char buff[1024] = { '\0' };
+    memset(buff, 0, 1024);
 
     uint16_t buffIndex = 0;
     uint16_t outArrayIndex = 0;

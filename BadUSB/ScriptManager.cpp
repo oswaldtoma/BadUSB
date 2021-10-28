@@ -13,31 +13,47 @@ void ScriptManager::executeScript(uint8_t* rawBytes, uint16_t size)
 {
     uint8_t rowCount = getRowCount(rawBytes, size);
 
-    Row rows[50] = { { 0 }, 0 };
+    static Row rows[50] = { { 0 }, 0 };
+    for (uint8_t i = 0; i < 50; i++)
+    {
+        Helper::fillArrayWithValue(rows[i].rowArray, 1024, 0);
+        rows[i].rowLength = 0;
+    }
+
     getRows(rawBytes, size, rows, 50);
 
     for (uint16_t row = 0; row < rowCount; row++)
     {
-        char buffer[250] = { '\0' };
+        static char buffer[1024];
+        Helper::fillArrayWithValue((uint8_t*)buffer, 1024, 0);
+
         ScriptLang::getLineBytesArray((const char*)rows[row].rowArray, buffer);
-        uint16_t bytesCount = Helper::getStringLength((uint8_t*)buffer, 250);
+        uint16_t bytesCount = Helper::getStringLength((uint8_t*)buffer, 1024);
 
         if (buffer[0] == '"' && buffer[bytesCount - 1] == '"') //string
         {
-            m_keyboard->write((const uint8_t*)buffer, rows[row].rowLength);
-            break;
+            buffer[bytesCount - 1] = '\0';
+            m_keyboard->write((const uint8_t*)(buffer + 1), rows[row].rowLength - 2); //ignore quotation marks
+            continue;
         }
 
         for (uint16_t c = 0; c < bytesCount; c++)
         {
-            m_keyboard->press(buffer[c]);
+            m_keyboard->press(buffer[c], 100);
         }
+
+        m_keyboard->releaseAll();
     }
 }
 
 uint16_t ScriptManager::getRowCount(uint8_t* buffer, uint16_t buffSize)
 {
-    uint16_t rowCount = 0;
+    uint16_t rowCount = 1;
+
+    if (Helper::isEmpty(buffer, buffSize))
+    {
+        return 0;
+    }
 
     for (uint16_t i = 0; i < buffSize; i++)
     {
@@ -68,7 +84,9 @@ void ScriptManager::getRows(uint8_t* rawBytesArr, uint16_t rawBytesArrSize, Row*
 {
     uint16_t nextEmptyRow = 0;
 
-    char buffer[50] = { '\0' };
+    static char buffer[1024];
+    Helper::fillArrayWithValue((uint8_t*)buffer, 1024, 0);
+
     uint16_t bufferIndex = 0;
 
     for (uint16_t i = 0; i <= rawBytesArrSize; i++)
@@ -84,7 +102,7 @@ void ScriptManager::getRows(uint8_t* rawBytesArr, uint16_t rawBytesArrSize, Row*
             Helper::copyArray(rowArray[nextEmptyRow].rowArray, (uint8_t*)buffer, bufferIndex);
             rowArray[nextEmptyRow].rowLength = bufferIndex;
 
-            Helper::fillArrayWithValue((uint8_t*)buffer, (uint8_t)50, (uint8_t)0);
+            Helper::fillArrayWithValue((uint8_t*)buffer, 1024, 0);
             bufferIndex = 0;
             nextEmptyRow++;
 

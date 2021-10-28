@@ -18,13 +18,14 @@ size_t USBHIDKeyboardWrapper::write(uint8_t k)
 
 size_t USBHIDKeyboardWrapper::write(const uint8_t* buffer, size_t size)
 {
+	delay(100);
 	return m_keyboard.write(buffer, size);
 }
 
-size_t USBHIDKeyboardWrapper::press(uint8_t k)
+size_t USBHIDKeyboardWrapper::press(uint8_t k, uint16_t delayms)
 {
 	size_t retVal = m_keyboard.press(k);
-	delay(100);
+	delay(delayms);
 	return retVal;
 }
 

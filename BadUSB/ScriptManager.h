@@ -5,7 +5,7 @@ class ScriptManager
 public:
     typedef struct
     {
-        uint8_t rowArray[100];
+        uint8_t rowArray[1024];
         uint16_t rowLength;
     } Row;
 
