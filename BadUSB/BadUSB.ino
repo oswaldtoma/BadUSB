@@ -31,19 +31,20 @@ void setup()
     ScriptManager::init(DevicesManager::getKeyboard());
 
     DevicesManager::getKeyboard()->releaseAll();
+
+    delay(1000);
 }                          
 
 void loop()
 {
+    static bool firstRun = true;
     delay(200);
-    static uint8_t fileData[500] = { '\0' };
-    Helper::fillArrayWithValue(fileData, 500, 0);
-
+    
     //testing
     static bool test = false;
+    static uint8_t fileData[500] = { '\0' };
 
-
-    if(isBootButtonClicked() && !test)
+    if((isBootButtonClicked() || firstRun) && !test)
     {       
         log("klik!");
         if (SD.exists("/script.txt"))
@@ -58,12 +59,13 @@ void loop()
         //DevicesManager::getKeyboard()->press('r');
         //DevicesManager::getKeyboard()->releaseAll();
         //DevicesManager::getKeyboard()->releaseRaw(0xe3);
+        firstRun = false;
         test = true;
     }
 
     if (!isBootButtonClicked())
     {
         test = false;
-        DevicesManager::getKeyboard()->releaseAll();
+        //DevicesManager::getKeyboard()->releaseAll();
     }
 }
