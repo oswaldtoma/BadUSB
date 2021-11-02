@@ -182,5 +182,17 @@ namespace BadUSBTests
 			Assert::AreEqual((uint8_t)'L', keyboard.getPressedKey(0));
 			Assert::AreEqual((uint8_t)'.', keyboard.getPressedKey(151));
 		}
+
+		TEST_METHOD(ScriptManagerKeysOneAfterAnother)
+		{
+			KeyboardFake keyboard;
+			ScriptManager::init(&keyboard);
+
+			const char* string = "a\nENT\nb\nENT\nc\nENT\nd\nENT\ne\nENT\nf\nENT\ng\nENT\nh\nENT\ni\nENT\nj\nENT\nk\nENT\nl\nENT\nm\nENT\nn\nENT\no\nENT\n";
+			ScriptManager::executeScript((uint8_t*)string, 91);
+
+			Assert::AreEqual((uint8_t)'o', keyboard.getPressedKey(28));
+			Assert::AreEqual((uint8_t)176, keyboard.getPressedKey(29));
+		}
 	};
 }

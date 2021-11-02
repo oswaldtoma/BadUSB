@@ -32,7 +32,7 @@ void setup()
 
     DevicesManager::getKeyboard()->releaseAll();
 
-    delay(1000);
+    delay(2000);
 }                          
 
 void loop()
