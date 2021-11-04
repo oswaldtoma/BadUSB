@@ -16,7 +16,7 @@ void ScriptManager::executeScript(uint8_t* rawBytes, uint16_t size)
     static Row rows[50] = { { 0 }, 0 };
     for (uint8_t i = 0; i < 50; i++)
     {
-        Helper::fillArrayWithValue(rows[i].rowArray, 1024, 0);
+        Helper::fillArrayWithValue(rows[i].rowArray, 512, 0);
         rows[i].rowLength = 0;
     }
 
@@ -24,11 +24,11 @@ void ScriptManager::executeScript(uint8_t* rawBytes, uint16_t size)
 
     for (uint16_t row = 0; row < rowCount; row++)
     {
-        static char buffer[1024];
-        Helper::fillArrayWithValue((uint8_t*)buffer, 1024, 0);
+        static char buffer[512];
+        Helper::fillArrayWithValue((uint8_t*)buffer, 512, 0);
 
         ScriptLang::getLineBytesArray((const char*)rows[row].rowArray, buffer);
-        uint16_t bytesCount = Helper::getStringLength((uint8_t*)buffer, 1024);
+        uint16_t bytesCount = Helper::getStringLength((uint8_t*)buffer, 512);
 
         if (buffer[0] == '"' && buffer[bytesCount - 1] == '"') //string
         {
@@ -84,8 +84,8 @@ void ScriptManager::getRows(uint8_t* rawBytesArr, uint16_t rawBytesArrSize, Row*
 {
     uint16_t nextEmptyRow = 0;
 
-    static char buffer[1024];
-    Helper::fillArrayWithValue((uint8_t*)buffer, 1024, 0);
+    static char buffer[512];
+    Helper::fillArrayWithValue((uint8_t*)buffer, 512, 0);
 
     uint16_t bufferIndex = 0;
 
@@ -102,7 +102,7 @@ void ScriptManager::getRows(uint8_t* rawBytesArr, uint16_t rawBytesArrSize, Row*
             Helper::copyArray(rowArray[nextEmptyRow].rowArray, (uint8_t*)buffer, bufferIndex);
             rowArray[nextEmptyRow].rowLength = bufferIndex;
 
-            Helper::fillArrayWithValue((uint8_t*)buffer, 1024, 0);
+            Helper::fillArrayWithValue((uint8_t*)buffer, 512, 0);
             bufferIndex = 0;
             nextEmptyRow++;
 
