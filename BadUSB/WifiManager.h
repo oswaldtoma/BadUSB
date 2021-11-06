@@ -9,11 +9,15 @@ class WifiManager
 {
 public:
 	static void init();
-	static void run();
+	static void run(String filecontent);
+
+	static void setOnExecuteCallback(void (*onExecuteCb)()) { onExecute = onExecuteCb; }
 
 private:
 
 	static WiFiServer server;
+
+	static void (*onExecute)();
 };
 
 #endif

@@ -11,7 +11,7 @@ void WifiManager::init()
     server.begin();
 }
 
-void WifiManager::run()
+void WifiManager::run(String filecontent)
 {
     WiFiClient client = server.available();  
 
@@ -32,7 +32,7 @@ void WifiManager::run()
                         client.println("Content-type:text/html");
                         client.println();
 
-                        const char* content = "<html> \
+                        String content = "<html> \
                                 <head> \
                                 </head> \
                                 <body> \
@@ -47,21 +47,17 @@ void WifiManager::run()
                                             document.getElementById(\"code\").value += \"\\n\" + value + \" \"; \
                                             scrollToBottom(); \
                                         } \
-                                        \
-                                        function execute() { \
-                                        \
-                                        } \
                                     </script> \
                                     <div id=\"main\" style=\"display: flex; height: 75%;\"> \
                                         <div id=\"text\" style=\"flex: 3;\"> \
-                                            <textarea id=\"code\" placeholder=\"Enter your code here.\" autofocus=\"true\" style=\"resize: none; width: 80%; height: 100%; font-size: 18px;\"></textarea> \
+                                            <textarea id=\"code\" placeholder=\"Enter your code here.\" autofocus=\"true\" style=\"resize: none; width: 80%; height: 100%; font-size: 18px;\">" + filecontent + "</textarea> \
                                         </div> \
                                         <div id = \"buttons\" style = \"flex: 1\"> \
                                             <input type = \"button\" value = \"Comment\" style = \"padding: 50px 54px; font-size: 20px;\" onclick=\"addString(\'COM\')\"><br><br><br><br> \
                                             <input type = \"button\" value = \"Wait\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'WT\')\"><br><br><br><br> \
                                             <input type = \"button\" value = \"OS\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'OS\')\"><br><br><br><br> \
                                             <input type = \"button\" value = \"Context menu\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'CON\')\"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> \
-                                            <input type = \"button\" value = \"Execute\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"execute()\"><br><br><br><br> \
+                                            <input type = \"button\" value = \"Execute\" style = \"padding: 30px 34px; font-size: 20px;\" href=\"/execute\"><br><br><br><br> \
                                         </div> \
                                     </div> \
                                     <script> \
@@ -83,6 +79,16 @@ void WifiManager::run()
                 else if (c != '\r')
                 {  
                     currentLine += c;      
+                }
+
+                if (currentLine.endsWith("GET /execute"))
+                {
+                    if (onExecute)
+                    {
+                        onExecute();
+                    }
+
+                    Serial.println("execute");
                 }
             }
         }

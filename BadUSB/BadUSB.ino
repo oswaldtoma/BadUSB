@@ -39,13 +39,20 @@ void setup()
 
 void loop()
 {
-    WifiManager::run();
+    static uint8_t fileData[500] = { '\0' };
+
+    if (SD.exists("/script.txt"))
+    {
+        File file = SD.open("/script.txt");
+        file.readBytes((char*)fileData, 500);
+    }
+
+    WifiManager::run((char*)fileData);
 
     static bool firstRun = false;
     
     //testing
     static bool test = false;
-    static uint8_t fileData[500] = { '\0' };
 
     if((isBootButtonClicked() || firstRun) && !test)
     {       
