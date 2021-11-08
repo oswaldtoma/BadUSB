@@ -4,6 +4,8 @@
 #define _WIFIMANAGER_h
 
 #include "WiFi.h"
+#include "AsyncTCP.h"
+#include "ESPAsyncWebServer.h"
 
 class WifiManager
 {
@@ -11,13 +13,15 @@ public:
 	static void init();
 	static void run(String filecontent);
 
-	static void setOnExecuteCallback(void (*onExecuteCb)()) { onExecute = onExecuteCb; }
+	static void setOnRequestCb(void (*onRequest)(String bodyContent)) { onRequestCb = onRequest; }
 
 private:
 
-	static WiFiServer server;
+	static AsyncWebServer server;
 
-	static void (*onExecute)();
+	static char PROGMEM pageContent[3000];
+
+	static void (*onRequestCb)(String);
 };
 
 #endif

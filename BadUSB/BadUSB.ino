@@ -16,6 +16,11 @@ bool isBootButtonClicked()
     return digitalRead(BOOT_BUTTON) == LOW;
 }
 
+static void test(String bodyContent)
+{
+    Serial.println(bodyContent);
+}
+
 void setup()
 {
     pinMode(BOOT_BUTTON, INPUT_PULLUP);
@@ -32,6 +37,7 @@ void setup()
 
     delay(500);
 
+    WifiManager::setOnRequestCb(test);
     WifiManager::init();
 
     delay(500);
@@ -47,7 +53,7 @@ void loop()
         file.readBytes((char*)fileData, 500);
     }
 
-    WifiManager::run((char*)fileData);
+    //WifiManager::run((char*)fileData);
 
     static bool firstRun = false;
     

@@ -1,6 +1,47 @@
 #include "WifiManager.h"
 
-WiFiServer WifiManager::server(80);
+AsyncWebServer WifiManager::server(80);
+
+void (*WifiManager::onRequestCb)(String) = nullptr;
+
+char WifiManager::pageContent[3000] PROGMEM = R"rawliteral(
+<html>
+    <head>
+    </head>
+    <body>
+        <script>
+            function scrollToBottom()
+            {
+                var code = document.getElementById("code");
+                code.scrollTop = code.scrollHeight;
+            }
+
+            function addString(value)
+            {
+                document.getElementById("code").value += "\n" + value + " ";
+                scrollToBottom();
+            }
+        </script>
+        <div id="main" style="display: flex; height: 75%;">
+            <form id="codeform" action="/post" method="POST">
+                <div id="text" style="flex: 3;">
+                    <textarea name="code" id="code" placeholder="Enter your code here." autofocus="true" style="resize: none; width: 80%; height: 100%; font-size: 18px;"></textarea>
+                </div>
+                <div id="buttons" style="flex: 1;">
+                    <input type="button" value="Comment" style="padding: 50px 54px; font-size: 20px;" onclick="addString('COM')"><br><br><br><br>
+                    <input type="button" value="Wait" style="padding: 30px 34px; font-size: 20px;" onclick="addString('WT')"><br><br><br><br>
+                    <input type="button" value="OS" style="padding: 30px 34px; font-size: 20px;" onclick="addString('OS')"><br><br><br><br>
+                    <input type="button" value="Context menu" style="padding: 30px 34px; font-size: 20px;" onclick="addString('CON')"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                    <input type="submit" value="Execute" style="padding: 30px 34px; font-size: 20px;"><br><br><br><br>
+                </div>
+            </form>
+        </div>
+        <script>
+            scrollToBottom();
+        </script>
+    </body>
+</html>
+)rawliteral";
 
 void WifiManager::init()
 {
@@ -8,92 +49,115 @@ void WifiManager::init()
     IPAddress myIP = WiFi.softAPIP();
     Serial.print("AP IP address: ");
     Serial.println(myIP);
+
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
+        request->send_P(200, "text/html", pageContent);
+    });
+
+    server.on("/post", HTTP_POST, 
+        [](AsyncWebServerRequest* request) {
+            Serial.println("POST");
+            
+            if (request->hasArg("code"))
+            {
+                if (onRequestCb)
+                {
+                    onRequestCb(request->arg("code"));
+                }
+            }
+
+            request->send(200);
+    });
+
     server.begin();
 }
 
 void WifiManager::run(String filecontent)
 {
-    WiFiClient client = server.available();  
+    //WiFiClient client = server.available();  
 
-    if (client)
-    {                             
-        Serial.println("New Client.");           
-        String currentLine = "";               
-        while (client.connected())
-        {            
-            if (client.available())
-            {            
-                char c = client.read();             
-                if (c == '\n')
-                {                    
-                    if (currentLine.length() == 0)
-                    {
-                        client.println("HTTP/1.1 200 OK");
-                        client.println("Content-type:text/html");
-                        client.println();
+    //if (client)
+    //{                             
+    //    Serial.println("New Client.");           
+    //    String currentLine = "";               
+    //    while (client.connected())
+    //    {            
+    //        if (client.available())
+    //        {            
+    //            char c = client.read();             
+    //            if (c == '\n')
+    //            {                    
+    //                if (currentLine.length() == 0)
+    //                {
+    //                    client.println("HTTP/1.1 200 OK");
+    //                    client.println("Content-type:text/html");
+    //                    client.println();
 
-                        String content = "<html> \
-                                <head> \
-                                </head> \
-                                <body> \
-                                    <script> \
-                                        function scrollToBottom() \
-                                        { \
-                                            var code = document.getElementById(\"code\"); \
-                                            code.scrollTop = code.scrollHeight; \
-                                        } \
-                                        \
-                                        function addString(value) { \
-                                            document.getElementById(\"code\").value += \"\\n\" + value + \" \"; \
-                                            scrollToBottom(); \
-                                        } \
-                                    </script> \
-                                    <div id=\"main\" style=\"display: flex; height: 75%;\"> \
-                                        <div id=\"text\" style=\"flex: 3;\"> \
-                                            <textarea id=\"code\" placeholder=\"Enter your code here.\" autofocus=\"true\" style=\"resize: none; width: 80%; height: 100%; font-size: 18px;\">" + filecontent + "</textarea> \
-                                        </div> \
-                                        <div id = \"buttons\" style = \"flex: 1\"> \
-                                            <input type = \"button\" value = \"Comment\" style = \"padding: 50px 54px; font-size: 20px;\" onclick=\"addString(\'COM\')\"><br><br><br><br> \
-                                            <input type = \"button\" value = \"Wait\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'WT\')\"><br><br><br><br> \
-                                            <input type = \"button\" value = \"OS\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'OS\')\"><br><br><br><br> \
-                                            <input type = \"button\" value = \"Context menu\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'CON\')\"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> \
-                                            <input type = \"button\" value = \"Execute\" style = \"padding: 30px 34px; font-size: 20px;\" href=\"/execute\"><br><br><br><br> \
-                                        </div> \
-                                    </div> \
-                                    <script> \
-                                        scrollToBottom(); \
-                                    </script> \
-                                </body> \
-                            </html>";
+    //                    String content PROGMEM = R"rawliteral(
+    //                            <html>
+    //                            <head>
+    //                            </head>
+    //                            <body>
+    //                                <script>
+    //                                    function scrollToBottom()
+    //                                    {
+    //                                        var code = document.getElementById(\"code\");
+    //                                        code.scrollTop = code.scrollHeight;
+    //                                    }
 
-                        client.print(content);
-                        client.println();
-                       
-                        break;
-                    }
-                    else 
-                    {    
-                        currentLine = "";
-                    }
-                }
-                else if (c != '\r')
-                {  
-                    currentLine += c;      
-                }
+    //                                    function addString(value)
+    //                                    {
+    //                                        document.getElementById(\"code\").value += \"\\n\" + value + \" \";
+    //                                        scrollToBottom();
+    //                                    }
+    //                                </script>
+    //                                <div id=\"main\" style=\"display: flex; height: 75%;\">
+    //                                    <div id=\"text\" style=\"flex: 3;\">
+    //                                        <textarea id=\"code\" placeholder=\"Enter your code here.\" autofocus=\"true\" style=\"resize: none; width: 80%; height: 100%; font-size: 18px;\">" + filecontent + "</textarea>
+    //                                    </div>
+    //                                    <div id = \"buttons\" style = \"flex: 1\">
+    //                                        <input type = \"button\" value = \"Comment\" style = \"padding: 50px 54px; font-size: 20px;\" onclick=\"addString(\'COM\')\"><br><br><br><br>
+    //                                        <input type = \"button\" value = \"Wait\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'WT\')\"><br><br><br><br>
+    //                                        <input type = \"button\" value = \"OS\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'OS\')\"><br><br><br><br>
+    //                                        <input type = \"button\" value = \"Context menu\" style = \"padding: 30px 34px; font-size: 20px;\" onclick=\"addString(\'CON\')\"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    //                                        <input type = \"button\" value = \"Execute\" style = \"padding: 30px 34px; font-size: 20px;\" href=\"/execute\"><br><br><br><br>
+    //                                    </div>
+    //                                </div>
+    //                                <script>
+    //                                    scrollToBottom();
+    //                                </script>
+    //                            </body>
+    //                        </html>
+    //                        )rawliteral";
 
-                if (currentLine.endsWith("GET /execute"))
-                {
-                    if (onExecute)
-                    {
-                        onExecute();
-                    }
+    //                    client.print(content);
+    //                    client.println();
+    //                   
+    //                    break;
+    //                }
+    //                else 
+    //                {    
+    //                    currentLine = "";
+    //                }
+    //            }
+    //            else if (c != '\r')
+    //            {  
+    //                currentLine += c;      
+    //            }
 
-                    Serial.println("execute");
-                }
-            }
-        }
+    //            if (currentLine.endsWith("GET /execute"))
+    //            {
+    //                if (onExecute)
+    //                {
+    //                    //onExecute();
+    //                }
 
-        client.stop();
-        Serial.println("Client Disconnected.");
-    }
+    //                Serial.println("execute");
+    //            }
+    //        }
+    //    }
+
+    //    client.stop();
+    //    Serial.println("Client Disconnected.");
+    //}
 }
