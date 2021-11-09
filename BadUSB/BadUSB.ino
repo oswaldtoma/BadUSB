@@ -16,6 +16,19 @@ bool isBootButtonClicked()
     return digitalRead(BOOT_BUTTON) == LOW;
 }
 
+static uint8_t fileData[500] = { '\0' };
+
+static void getFileContent(uint8_t* rawBytes, uint16_t size)
+{
+    if (SD.exists("/script.txt"))
+    {
+        File file = SD.open("/script.txt");
+        file.readBytes((char*)rawBytes, size);
+        ScriptManager::executeScript(fileData, size);
+        log("executed!");
+    }
+}
+
 static void test(String bodyContent)
 {
     Serial.println(bodyContent);
@@ -37,7 +50,8 @@ void setup()
 
     delay(500);
 
-    WifiManager::setOnRequestCb(test);
+    WifiManager::setOnGetRequestCb(getFileContent);
+    WifiManager::setOnPostRequestCb(test);
     WifiManager::init();
 
     delay(500);
@@ -45,16 +59,6 @@ void setup()
 
 void loop()
 {
-    static uint8_t fileData[500] = { '\0' };
-
-    if (SD.exists("/script.txt"))
-    {
-        File file = SD.open("/script.txt");
-        file.readBytes((char*)fileData, 500);
-    }
-
-    //WifiManager::run((char*)fileData);
-
     static bool firstRun = false;
     
     //testing

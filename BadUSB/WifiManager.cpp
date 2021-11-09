@@ -2,9 +2,10 @@
 
 AsyncWebServer WifiManager::server(80);
 
-void (*WifiManager::onRequestCb)(String) = nullptr;
+void (*WifiManager::onGetRequestCb)(uint8_t*, uint16_t) = nullptr;
+void (*WifiManager::onPostRequestCb)(String) = nullptr;
 
-char WifiManager::pageContent[3000] PROGMEM = R"rawliteral(
+const String WifiManager::pageContentPart1 = R"rawliteral(
 <html>
     <head>
     </head>
@@ -25,7 +26,10 @@ char WifiManager::pageContent[3000] PROGMEM = R"rawliteral(
         <div id="main" style="display: flex; height: 75%;">
             <form id="codeform" action="/post" method="POST">
                 <div id="text" style="flex: 3;">
-                    <textarea name="code" id="code" placeholder="Enter your code here." autofocus="true" style="resize: none; width: 80%; height: 100%; font-size: 18px;"></textarea>
+                    <textarea name="code" id="code" placeholder="Enter your code here." autofocus="true" style="resize: none; width: 80%; height: 100%; font-size: 18px;">)rawliteral";
+
+
+const String WifiManager::pageContentPart2 = R"rawliteral(</textarea>
                 </div>
                 <div id="buttons" style="flex: 1;">
                     <input type="button" value="Comment" style="padding: 50px 54px; font-size: 20px;" onclick="addString('COM')"><br><br><br><br>
@@ -43,6 +47,9 @@ char WifiManager::pageContent[3000] PROGMEM = R"rawliteral(
 </html>
 )rawliteral";
 
+String WifiManager::pageContent = "";
+uint8_t WifiManager::fileContent[3000] = { 0 };
+
 void WifiManager::init()
 {
     WiFi.softAP("ESP32", 0, 10);
@@ -51,7 +58,17 @@ void WifiManager::init()
     Serial.println(myIP);
 
     server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
-        request->send_P(200, "text/html", pageContent);
+
+        onGetRequestCb(fileContent, 3000);
+
+        pageContent += pageContentPart1;
+        pageContent += (char*)fileContent;
+        pageContent += pageContentPart2;
+
+        static char buffer[3000] = { 0 };
+        pageContent.toCharArray(buffer, 3000);
+
+        request->send_P(200, "text/html", buffer);
     });
 
     server.on("/post", HTTP_POST, 
@@ -60,9 +77,9 @@ void WifiManager::init()
             
             if (request->hasArg("code"))
             {
-                if (onRequestCb)
+                if (onPostRequestCb)
                 {
-                    onRequestCb(request->arg("code"));
+                    onPostRequestCb(request->arg("code"));
                 }
             }
 
