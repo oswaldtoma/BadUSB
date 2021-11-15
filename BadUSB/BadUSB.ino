@@ -24,6 +24,7 @@ static void getFileContent(uint8_t* rawBytes, uint16_t size)
     {
         File file = SD.open("/script.txt");
         file.readBytes((char*)rawBytes, size);
+        file.close();
     }
 }
 
