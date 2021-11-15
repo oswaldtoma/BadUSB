@@ -6,7 +6,7 @@ void (*WifiManager::onGetRequestCb)(uint8_t*, uint16_t) = nullptr;
 void (*WifiManager::onPostRequestCb)(String) = nullptr;
 
 const String WifiManager::pageContentPart1 = R"rawliteral(
-<!DOCTYPE html>
+<html>
     <head>
     </head>
     <body>
@@ -23,8 +23,8 @@ const String WifiManager::pageContentPart1 = R"rawliteral(
                 scrollToBottom();
             }
         </script>
-        <div id="main" style="display: flex; height: 75%;">
-            <form id="codeform" action="/post" method="POST">
+        <div id="main" style="height: 75%;">
+            <form id="codeform" style="display: flex;" action="/post" method="POST">
                 <div id="text" style="flex: 3;">
                     <textarea name="code" id="code" placeholder="Enter your code here." autofocus="true" style="resize: none; width: 80%; height: 100%; font-size: 18px;">)rawliteral";
 
