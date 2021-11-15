@@ -24,14 +24,13 @@ static void getFileContent(uint8_t* rawBytes, uint16_t size)
     {
         File file = SD.open("/script.txt");
         file.readBytes((char*)rawBytes, size);
-        ScriptManager::executeScript(fileData, size);
-        log("executed!");
     }
 }
 
-static void test(String bodyContent)
+static void postHandler(String bodyContent)
 {
-    Serial.println(bodyContent);
+    bodyContent.toCharArray((char*)fileData, 500);
+    ScriptManager::executeScript(fileData, 500);
 }
 
 void setup()
@@ -51,7 +50,7 @@ void setup()
     delay(500);
 
     WifiManager::setOnGetRequestCb(getFileContent);
-    WifiManager::setOnPostRequestCb(test);
+    WifiManager::setOnPostRequestCb(postHandler);
     WifiManager::init();
 
     delay(500);
@@ -60,11 +59,13 @@ void setup()
 void loop()
 {
     static bool firstRun = false;
-    
-    //testing
-    static bool test = false;
 
-    if((isBootButtonClicked() || firstRun) && !test)
+    if (isBootButtonClicked())
+    {
+        firstRun = false;
+    }
+    
+    if(firstRun)
     {       
         log("klik!");
         if (SD.exists("/script.txt"))
@@ -75,17 +76,11 @@ void loop()
             log("executed!");
         }
 
-        //DevicesManager::getKeyboard()->press(0x83);
-        //DevicesManager::getKeyboard()->press('r');
-        //DevicesManager::getKeyboard()->releaseAll();
-        //DevicesManager::getKeyboard()->releaseRaw(0xe3);
         firstRun = false;
-        test = true;
     }
-
-    if (!isBootButtonClicked())
+   
+    if (millis() % 1000 == 0)
     {
-        test = false;
-        //DevicesManager::getKeyboard()->releaseAll();
+        Serial.printf("%d\n", ESP.getFreeHeap());
     }
 }
