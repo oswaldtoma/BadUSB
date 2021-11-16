@@ -1,6 +1,8 @@
 #include "ScriptManager.h"
 #include "ScriptLang.h"
 #include "Helper.h"
+#include "string.h"
+#include "stdlib.h"
 
 IKeyboard* ScriptManager::m_keyboard = nullptr;
 
@@ -22,10 +24,18 @@ void ScriptManager::executeScript(uint8_t* rawBytes, uint16_t size)
 
     getRows(rawBytes, size, rows, 50);
 
+    uint16_t nextDelay = 100;
+
     for (uint16_t row = 0; row < rowCount; row++)
     {
         static char buffer[512];
         Helper::fillArrayWithValue((uint8_t*)buffer, 512, 0);
+
+        if (strstr((const char*)rows[row].rowArray, "WT "))
+        {
+            nextDelay = atoi((const char*)rows[row].rowArray[3]);
+            continue;
+        }
 
         ScriptLang::getLineBytesArray((const char*)rows[row].rowArray, buffer);
         uint16_t bytesCount = Helper::getStringLength((uint8_t*)buffer, 512);
@@ -39,7 +49,8 @@ void ScriptManager::executeScript(uint8_t* rawBytes, uint16_t size)
 
         for (uint16_t c = 0; c < bytesCount; c++)
         {
-            m_keyboard->press(buffer[c], 100);
+            m_keyboard->press(buffer[c], nextDelay);
+            nextDelay = 100;
         }
 
         m_keyboard->releaseAll();
